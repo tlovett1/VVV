@@ -103,6 +103,15 @@ apt_package_check_list=(
 
 echo "Check for apt packages to install..."
 
+# Setup Java 8
+add-apt-repository ppa:webupd8team/java -y
+apt-get update
+echo debconf shared/accepted-oracle-license-v1-1 select true | debconf-set-selections
+echo debconf shared/accepted-oracle-license-v1-1 seen true | debconf-set-selections
+apt-get install oracle-java8-installer -y
+wget https://download.elasticsearch.org/elasticsearch/release/org/elasticsearch/distribution/deb/elasticsearch/2.1.0/elasticsearch-2.1.0.deb
+dpkg -i elasticsearch-2.1.0.deb
+
 # Loop through each of our packages that should be installed on the system. If
 # not yet installed, it should be added to the array of packages to install.
 for pkg in "${apt_package_check_list[@]}"; do
